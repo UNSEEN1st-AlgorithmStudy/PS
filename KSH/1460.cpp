@@ -4,10 +4,11 @@
 using namespace std;
 
 
+const int NODE_MAX = 1001;
 int nodeCount, edgeCount, startNode;
-int a, b;
-bool graph[1001][1001];
-bool visited[1001];
+int from, to;
+bool graph[NODE_MAX][NODE_MAX];
+bool visited[NODE_MAX];
 
 
 void DFS(int startNode)
@@ -56,15 +57,15 @@ int main()
     
     for (int i = 0; i < edgeCount; i++)
     {
-        cin >> a >> b;
-        graph[a][b] = true;
-        graph[b][a] = true;
+        cin >> from >> to;
+        graph[from][to] = true;
+        graph[to][from] = true;
     }
     
     DFS(startNode);
     
-    cout << endl;
-    memset(visited, false, 1001);
+    cout << '\n';
+    memset(visited, false, sizeof(visited));
     
     BFS(startNode);
 }
