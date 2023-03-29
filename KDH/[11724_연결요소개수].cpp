@@ -3,16 +3,13 @@
 #include <set>
 #include <queue>
 using namespace std;
-bool Visited[1001];
-queue<int> BfsQueue;
 
 void BFS(set<int>& RemainNodes, const vector<vector<int> >& Connections)
 {
-	BfsQueue = queue<int>();
+	queue<int> BfsQueue;
 
 	int StartNode = *RemainNodes.cbegin();
 	BfsQueue.push(StartNode);
-	Visited[StartNode] = true;
 	RemainNodes.erase(StartNode);
 
 	while(BfsQueue.size())
@@ -21,9 +18,8 @@ void BFS(set<int>& RemainNodes, const vector<vector<int> >& Connections)
 		BfsQueue.pop();
 		for (const auto it : Connections[TargetNode])
 		{
-			if (Visited[it] == true) continue;
+			if (RemainNodes.find(it) == RemainNodes.end()) continue;
 			BfsQueue.push(it);
-			Visited[it] = true;
 			RemainNodes.erase(it);
 		}
 	}
