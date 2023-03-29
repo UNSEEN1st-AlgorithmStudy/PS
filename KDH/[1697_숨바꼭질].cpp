@@ -15,17 +15,10 @@ int main()
 
 	if (BrotherPos <= SubinPos)
 		cout << SubinPos - BrotherPos << endl;
-	else if ( 50000 < SubinPos )
-		cout << BrotherPos - SubinPos << endl;
 	else {
 		pair_t NextPos = make_pair(SubinPos, 0);
 		PathQueue.push(NextPos);
 		Visited[NextPos.first] = true;
-		if (NextPos.first == BrotherPos)
-        {
-	        std::cout << NextPos.second << std::endl;
-            return (0);
-        }
 
 		pair_t TargetPos;
 		while (PathQueue.size())
