@@ -10,21 +10,12 @@ int nodeNum, edgeNum, from, to;
 vector<int> graph[NODE_MAX + 1];
 bool visited[NODE_MAX + 1];
 
-int countVisited = 0;
-int nodeMax = 0;
-
-
-void VisitNode(int node)
-{
-    visited[node] = true;
-    countVisited++;
-}
 
 void BFS(int startNode)
 {
     queue<int> q;
     q.push(startNode);
-    VisitNode(startNode);
+    visited[startNode] = true;
     
     while(q.empty() == false)
     {
@@ -35,7 +26,7 @@ void BFS(int startNode)
         {
             if (visited[to] == true) continue;
             
-            VisitNode(to);
+            visited[to] = true;
             q.push(to);
         }
     }
@@ -45,7 +36,7 @@ int CountConnectedComponents()
 {
     int count = 0;
     
-    for (int node = 1; node < nodeMax + 1; node++)
+    for (int node = 1; node < nodeNum + 1; node++)
     {
         if (visited[node] == true) continue;
         
@@ -53,7 +44,7 @@ int CountConnectedComponents()
         count++;
     }
     
-    return count + (nodeNum - countVisited);
+    return count;
 }
 
 
@@ -70,8 +61,6 @@ int main()
         cin >> from >> to;
         graph[from].push_back(to);
         graph[to].push_back(from);
-        
-        if (nodeMax < from) nodeMax = from;
     }
     
     cout << CountConnectedComponents();
