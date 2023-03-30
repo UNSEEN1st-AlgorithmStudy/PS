@@ -15,7 +15,7 @@ int main()
 {
 	int Vertices, Edges;
 	MyLess Less;
-	cin >> Vertices, Edges;
+	cin >> Vertices >>  Edges;
 
 	vector<vector<int> >	TrustRelationships(Vertices + 1);
 	vector<pair<int, int> >	NumOfTrusts(Vertices + 1);
@@ -40,16 +40,20 @@ int main()
 	}
 	
 	sort(NumOfTrusts.begin(), NumOfTrusts.end(), Less);
-	for (auto it = NumOfTrusts.cbegin(); it != NumOfTrusts.cend() - 1; it++)
+	
+	vector<int> FinalVector;
+	FinalVector.push_back(NumOfTrusts.cbegin()->first);
+	for (auto it = NumOfTrusts.cbegin() + 1 ; it != NumOfTrusts.cend() - 1; it++)
 	{
-		if (it->second > (it + 1)->second)
+		if ((it - 1)->second > (it)->second)
 			break;
-		cout << it->first << " ";
+		FinalVector.push_back(it->first);
 	}
+	sort(FinalVector.begin(), FinalVector.end());
+	for (auto Elem : FinalVector)
+		cout << Elem << " ";
 	cout << endl;
 }
-
-
 
 int	CountTrustComputers(int StartNode, const vector<vector<int> >& Relationships, vector<bool>& Visited)
 {
@@ -60,7 +64,6 @@ int	CountTrustComputers(int StartNode, const vector<vector<int> >& Relationships
 	Visited[StartNode] = true;
 	Count++;
 	
-	cout << "ROOT : " << StartNode << endl;
 	while(BfsQueue.size())
 	{
 		int TargetNode = BfsQueue.front();
@@ -68,24 +71,13 @@ int	CountTrustComputers(int StartNode, const vector<vector<int> >& Relationships
 		const vector<int>& TrustingComputers = Relationships[TargetNode];
 		for (auto elem : TrustingComputers)
 		{
-			cout << "ELME : " << elem << endl;
 			if (Visited[elem] == true)
 				continue;
 			BfsQueue.push(elem);
 			Visited[elem] = true;
 			Count++;
-			cout << "    elem : " << elem << "  -> count : " << Count << endl;
 		}
 		
 	}
 	return Count;
 }
-
-
-
-
-
-
-
-
-
