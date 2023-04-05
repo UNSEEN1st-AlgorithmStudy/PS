@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stack>
 #include <vector>
-#include <cstring>
 using namespace std;
 
 const int MAX = 2001;
@@ -9,7 +7,7 @@ int Vertices;
 int Edges;
 int Visited[MAX];
 
-bool dfs(const vector<vector<int>>& EdgeList, int StartNode);
+bool backtrackingDfs(const vector<vector<int>>& EdgeList, int StartNode, int depth);
 
 int main()
 {
@@ -26,48 +24,30 @@ int main()
 
 	for (int i = 0 ; i < Vertices ; i++)
 	{
-		bzero(Visited, MAX);
-		if (dfs(EdgeList, i) == false)
-			continue;
-		cout << "1" << endl;
-		return 0;
+		if (backtrackingDfs(EdgeList, i, 0))
+		{
+			cout<< "1" << endl;
+			return 0;
+		}
 	}
 
 	cout << "0" << endl;
+	return 0;
 }
 
-
-bool dfs(const vector<vector<int>>& EdgeList, int StartNode)
+bool backtrackingDfs(const vector<vector<int>>& EdgeList, int StartNode, int depth)
 {
-	int depth = 0;
-	stack<pair<int, int>> DFSStack;
-	DFSStack.push({StartNode, depth});
-	
-	while (DFSStack.size())
+	const vector<int>& Friends = EdgeList[StartNode];
+	Visited[StartNode] = true;
+	for (const int next : Friends)
 	{
-		int Node = DFSStack.top().first;
-		int Depth = DFSStack.top().second;
-		if (Depth == 4)
-			return true;
-		DFSStack.pop();
-		if (Visited[Node] == true)
+		if (Visited[next] == true)
 			continue;
-		Visited[Node] = true;
-		const vector<int>& Friends = EdgeList[Node];
-		for (const int a : Friends)
-		{
-			if (Visited[a] == true)
-				continue;
-			DFSStack.push({a , Depth + 1});
-		}
+		if (depth == 3) // 다음꺼 무조건 있음.
+			return true;
+		if (backtrackingDfs(EdgeList, next, depth + 1))
+			return true;
 	}
+	Visited[StartNode] = false;
 	return false;
 }
-
-
-
-
-
-
-
-
