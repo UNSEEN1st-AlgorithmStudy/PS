@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cstdio>
 using namespace std;
-const int MAP_SIZE = 25;
+const int MAP_SIZE = 26;
 vector<int> totalComplex; 
 
 int dx[] = { 1, 0, -1, 0};
@@ -36,12 +36,15 @@ void DFS(int y, int x)
 
 int main()
 {
-    scanf("%d", &M);
+
+    cin >> M;
     for(int i = 0; i < M; i++)
     {
+        string row;
+        cin >> row;
         for(int j = 0; j < M; j++)
         {
-            scanf("%d", &graph[i][j]);
+            graph[i][j] = row[j]-'0';
         }
     }
     
