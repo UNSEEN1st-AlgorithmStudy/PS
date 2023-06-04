@@ -1,25 +1,36 @@
 ﻿#include <iostream>
 #include <algorithm>
 using namespace std;
-const int MAX = 100001;
-int score[3];
+int max_score[3] = {0};
+int min_score[3] = {0};
 int N;
-pair<int,int> DP[MAX][3];
 int main()
 {
     cin >> N;
 
-    for(int i = 0; i < 3; i++)
-    {
-        DP[0][i] = {0,0};
+
+    for (int i = 0; i < N; i++) {
+        int a, b, c;
+        cin >> a >> b >> c;
+
+        int temp_max[3];
+        temp_max[0] = max(max_score[0], max_score[1]) + a;
+        temp_max[1] = max(max(max_score[0], max_score[1]), max_score[2]) + b;
+        temp_max[2] = max(max_score[1], max_score[2]) + c;
+
+        int temp_min[3];
+        temp_min[0] = min(min_score[0], min_score[1]) + a;
+        temp_min[1] = min(min(min_score[0], min_score[1]), min_score[2]) + b;
+        temp_min[2] = min(min_score[1], min_score[2]) + c;
+
+        for (int j = 0; j < 3; j++) {
+            max_score[j] = temp_max[j];
+            min_score[j] = temp_min[j];
+        }
     }
-    
-    for(int i = 0; i < N; i++)
-    {
-        cin >> score[0] >> score[1] >> score[2];
-        DP[i+1][0] = {min(DP[i][0].first,DP[i][1].first ) + score[0], max(DP[i][0].second, DP[i][1].second) + score[0]};
-        DP[i+1][1] = {min(DP[i][0].first,min(DP[i][1].first,DP[i][2].first)) + score[1], max(DP[i][0].second, max(DP[i][1].second,DP[i][2].second)) + score[1]};
-        DP[i+1][2] = {min(DP[i][1].first,DP[i][2].first ) + score[2], max(DP[i][1].second, DP[i][2].second) + score[2]};
-    }
-    cout << max(DP[N][0].second, max(DP[N][1].second,DP[N][2].second)) << " " << min(DP[N][0].first,min(DP[N][1].first,DP[N][2].first)) << '\n';
+
+    cout << max(max(max_score[0], max_score[1]), max_score[2]) << ' ';
+    cout << min(min(min_score[0], min_score[1]), min_score[2]) << '\n';
+
+    return 0;
 }
