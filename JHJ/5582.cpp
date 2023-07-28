@@ -4,7 +4,6 @@
 using namespace std;
 
 const int MAX = 4001;
-int LCS[MAX][MAX];
 string s1, s2;
 
 int main(){
@@ -12,6 +11,8 @@ int main(){
 
     cin >> s1;
     cin >> s2;
+    
+int LCS[MAX][MAX] = {};
 
     for(int i = 1; i <= s1.size(); i++){
         for(int j = 1; j <= s2.size(); j++){
